@@ -28,4 +28,14 @@ describe('tasks management', () => {
         cy.get('.task h2').contains('New task');
         cy.get('.task p').contains('some summary');
     });
+
+    it('should validate user input', () => {
+        cy.visit('http://localhost:5173/');
+        cy.get('#task-control button')
+            .contains('Add Task').click();
+        cy.get('#title');
+        cy.get('#summary');
+        cy.get('.actions button').contains('Add Task').click();
+        cy.get('#new-task-form p.error-message').contains('Please provide values for');
+    });
 });
