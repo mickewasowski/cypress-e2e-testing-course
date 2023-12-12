@@ -33,29 +33,29 @@ describe('contact form', () => {
     it('should validate the form input', () => {
         cy.visit('http://localhost:5173/about');
         cy.get('[data-cy="contact-btn-submit"]').click();
-        cy.get('[data-cy="contact-btn-submit"]').then((el) => {
-            expect(el).to.not.have.attr('disabled');
-            expect(el.text()).to.not.eq('Sending...');
-        });
+        cy.get('[data-cy="contact-btn-submit"]')
+            .then((el) => {
+                expect(el).to.not.have.attr('disabled');
+                expect(el.text()).to.not.eq('Sending...');
+            }
+        );
         cy.get('[data-cy="contact-btn-submit"]').contains('Send Message');
-        cy.get('[data-cy="contact-input-message"]').blur(); //loose focus of the field
-        cy.get('[data-cy="contact-input-message"]')
+        cy.get('[data-cy="contact-input-message"]').as('messageInp')
+        cy.get('@messageInp').blur(); //loose focus of the field
+        cy.get('@messageInp')
             .parent()
-            .then((el) => {
-                expect(el.attr('class')).to.contain('invalid'); // partial match
-            });
+            .should('have.attr', 'class').and('match', /invalid/); //partial match
 
-        cy.get('[data-cy="contact-input-name"]').focus().blur(); //loose focus of the field
-        cy.get('[data-cy="contact-input-name"]')
+        cy.get('[data-cy="contact-input-name"]').as('nameInput')
+        cy.get('@nameInput').focus().blur(); //loose focus of the field
+        cy.get('@nameInput')
             .parent()
-            .then((el) => {
-                expect(el.attr('class')).to.contain('invalid'); // partial match
-            });
-        cy.get('[data-cy="contact-input-email"]').focus().blur(); //loose focus of the field
-        cy.get('[data-cy="contact-input-email"]')
+            .should('have.attr', 'class').and('match', /invalid/);
+
+        cy.get('[data-cy="contact-input-email"]').as('emailInp');
+        cy.get('@emailInp').focus().blur(); //loose focus of the field
+        cy.get('@emailInp')
             .parent()
-            .then((el) => {
-                expect(el.attr('class')).to.contain('invalid'); // partial match
-            });
+            .should('have.attr', 'class').and('match', /invalid/);
     });
 });
