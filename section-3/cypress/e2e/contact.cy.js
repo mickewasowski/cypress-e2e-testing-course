@@ -14,6 +14,7 @@ describe('contact form', () => {
         //     .contains('Send Message')
         //     .and('not.have.attr', 'disabled');
 
+        cy.screenshot();
         cy.get('[data-cy="contact-input-email"]').type('test@example.com{enter}'); //hitting enter key after typing the text to submit the form
 
         
@@ -56,6 +57,9 @@ describe('contact form', () => {
         cy.get('@emailInp').focus().blur(); //loose focus of the field
         cy.get('@emailInp')
             .parent()
-            .should('have.attr', 'class').and('match', /invalid/);
+            .should((el) => {
+                expect(el.attr('class')).not.to.be.undefined;
+                expect(el.attr('class')).contains('invalid');
+            });
     });
 });
