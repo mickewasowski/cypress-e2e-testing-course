@@ -24,7 +24,7 @@ describe('contact form', () => {
 
         cy.screenshot();
         cy.get('[data-cy="contact-input-email"]').type('test@example.com{enter}'); //hitting enter key after typing the text to submit the form
-
+        cy.submitForm();
         
         //option 1
         // const btn = cy.get('[data-cy="contact-btn-submit"]');
@@ -40,7 +40,7 @@ describe('contact form', () => {
     });
 
     it('should validate the form input', () => {
-        cy.get('[data-cy="contact-btn-submit"]').click();
+        cy.submitForm();
         cy.get('[data-cy="contact-btn-submit"]')
             .then((el) => {
                 expect(el).to.not.have.attr('disabled');
