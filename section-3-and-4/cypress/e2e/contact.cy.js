@@ -1,8 +1,16 @@
 /// <reference types="Cypress" />
 
 describe('contact form', () => {
+    before(() => {
+        // runs before all tests
+    });
+    beforeEach(() => {
+        // runs before each test
+        cy.visit('/about'); //http://localhost:5173/about this is what Cypress builds
+
+        // you could also do seeding database and many more
+    });
     it('should submit the form', () => {
-        cy.visit('http://localhost:5173/about');
         cy.get('[data-cy="contact-input-message"]').type('some test message');
         cy.get('[data-cy="contact-input-name"]').type('john doe');
         cy.get('[data-cy="contact-btn-submit"]').then((element) => {
@@ -32,7 +40,6 @@ describe('contact form', () => {
     });
 
     it('should validate the form input', () => {
-        cy.visit('http://localhost:5173/about');
         cy.get('[data-cy="contact-btn-submit"]').click();
         cy.get('[data-cy="contact-btn-submit"]')
             .then((el) => {
