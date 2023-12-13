@@ -11,9 +11,9 @@ describe('contact form', () => {
         // you could also do seeding database and many more
     });
     it('should submit the form', () => {
-        cy.get('[data-cy="contact-input-message"]').type('some test message');
-        cy.get('[data-cy="contact-input-name"]').type('john doe');
-        cy.get('[data-cy="contact-btn-submit"]').then((element) => {
+        cy.getById('contact-input-message').type('some test message');
+        cy.getById('contact-input-name').type('john doe');
+        cy.getById('contact-btn-submit').then((element) => {
             expect(element.attr('disabled')).to.be.undefined;
             expect(element.text()).to.eq('Send Message');
         });
@@ -23,7 +23,7 @@ describe('contact form', () => {
         //     .and('not.have.attr', 'disabled');
 
         cy.screenshot();
-        cy.get('[data-cy="contact-input-email"]').type('test@example.com{enter}'); //hitting enter key after typing the text to submit the form
+        cy.getById('contact-input-email').type('test@example.com{enter}'); //hitting enter key after typing the text to submit the form
         cy.submitForm();
         
         //option 1
@@ -33,7 +33,7 @@ describe('contact form', () => {
         // btn.should('have.attr', 'disabled');
 
         //option 2
-        cy.get('[data-cy="contact-btn-submit"]').as('submitBtn');
+        cy.getById('contact-btn-submit').as('submitBtn');
         cy.get('@submitBtn').click();
         cy.get('@submitBtn').contains('Sending...');
         cy.get('@submitBtn').should('have.attr', 'disabled');
@@ -41,26 +41,26 @@ describe('contact form', () => {
 
     it('should validate the form input', () => {
         cy.submitForm();
-        cy.get('[data-cy="contact-btn-submit"]')
+        cy.getById('contact-btn-submit')
             .then((el) => {
                 expect(el).to.not.have.attr('disabled');
                 expect(el.text()).to.not.eq('Sending...');
             }
         );
-        cy.get('[data-cy="contact-btn-submit"]').contains('Send Message');
-        cy.get('[data-cy="contact-input-message"]').as('messageInp')
+        cy.getById('contact-btn-submit').contains('Send Message');
+        cy.getById('contact-input-message').as('messageInp')
         cy.get('@messageInp').blur(); //loose focus of the field
         cy.get('@messageInp')
             .parent()
             .should('have.attr', 'class').and('match', /invalid/); //partial match
 
-        cy.get('[data-cy="contact-input-name"]').as('nameInput')
+        cy.getById('contact-input-name').as('nameInput')
         cy.get('@nameInput').focus().blur(); //loose focus of the field
         cy.get('@nameInput')
             .parent()
             .should('have.attr', 'class').and('match', /invalid/);
 
-        cy.get('[data-cy="contact-input-email"]').as('emailInp');
+        cy.getById('contact-input-email').as('emailInp');
         cy.get('@emailInp').focus().blur(); //loose focus of the field
         cy.get('@emailInp')
             .parent()
