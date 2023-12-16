@@ -17,6 +17,9 @@ describe('share location', () => {
         cy.stub(window.navigator.clipboard, 'writeText')
           .as('saveToClipboard')
           .resolves();
+
+        cy.spy(window.localStorage, 'setItem').as('storeLocation');
+        cy.spy(window.localStorage, 'getItem').as('getStoreLocation');
     });
   });
 
@@ -32,11 +35,19 @@ describe('share location', () => {
     cy.get('[data-cy="get-loc-btn"]').click();
     cy.get('[data-cy="share-loc-btn"]').click();
     cy.get('@saveToClipboard').should('have.been.called');
+    cy.get('@storeLocation').should('have.been.called');
     cy.get('@userLocation').then(fakePosition => {
       const { latitude, longitude } = fakePosition.coords;
       cy.get('@saveToClipboard').should('have.been.calledWithMatch',
         new RegExp(`${latitude}.*${longitude}.*${encodeURI('John Doe')}`)
       );
+      cy.get('@storeLocation').should(
+        'have.been.calledWithMatch',
+        /John Doe/,
+        new RegExp(`${latitude}.*${longitude}.*${encodeURI('John Doe')}`)
+      );
     });
+    cy.get('[data-cy="share-loc-btn"]').click();
+    cy.get('@getStoreLocation').should('have.been.called');
   });
 });
