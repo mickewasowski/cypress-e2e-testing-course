@@ -2,6 +2,9 @@
 
 describe('share location', () => {
   beforeEach(() => {
+    //this is how we can allow to manipulate timers and clocks
+    //we need to manipulate it before the tests start running
+    cy.clock();
     cy.fixture('user-location.json').as('userLocation');
     cy.visit('/').then(window => {
       cy.get('@userLocation').then(fakePosition => {
@@ -49,5 +52,11 @@ describe('share location', () => {
     });
     cy.get('[data-cy="share-loc-btn"]').click();
     cy.get('@getStoreLocation').should('have.been.called');
+    cy.get('[data-cy="info-message"]').should('be.visible');
+    cy.get('[data-cy="info-message"]').should('have.class', 'visible');
+    cy.tick(2000); // we skip 2secs wit this code
+    //because the banner takes 2secs to disappear initially the test will fail
+    //but because by default Cypress has a 4sec timeout it will run this step again until it succeeds
+    cy.get('[data-cy="info-message"]').should('not.be.visible');
   });
 });
