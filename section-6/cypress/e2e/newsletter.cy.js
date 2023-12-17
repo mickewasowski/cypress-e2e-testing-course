@@ -14,4 +14,27 @@ describe('Newsletter', () => {
         cy.wait('@subscribe');
         cy.contains('Thanks for signing up');
     });
+
+    it('should display validation errors', () => {
+        cy.intercept('POST', '/newsletter*', { message: 'Email exists already.' }).as('subscribe');
+        cy.visit('/');
+        cy.get('[data-cy="newsletter-email"]').type('test@example.com');
+        cy.get('[data-cy="newsletter-submit"]').click();
+        cy.wait('@subscribe');
+        cy.contains('Email exists already.');
+    });
+
+    //this test is meant to test directly the backend
+    it('should successfully create new contact', () => {
+        cy.request({
+            method: 'POST',
+            url: '/newsletter',
+            body: {
+                email: 'test33@example.com',
+            },
+            form: true // if set to false - json data will be sent, true - form data will be sent
+        }).then(res => {
+            expect(res.status).to.eq(201);
+        });
+    });
 });
