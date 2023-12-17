@@ -1,7 +1,7 @@
 import {
   Auth_default,
   require_validation
-} from "/build/_shared/chunk-CPUEVNSU.js";
+} from "/build/_shared/chunk-AO5DDIHP.js";
 import {
   require_auth
 } from "/build/_shared/chunk-TCXHKMVV.js";
@@ -10,25 +10,25 @@ import {
 } from "/build/_shared/chunk-3K2JK6MY.js";
 import {
   require_jsx_dev_runtime
-} from "/build/_shared/chunk-7QRPC2GW.js";
+} from "/build/_shared/chunk-XXCIWKES.js";
 import {
   __toESM
 } from "/build/_shared/chunk-IU43IUTG.js";
 
-// app/routes/login.jsx
+// app/routes/signup.jsx
 var import_node = __toESM(require_node());
 var import_auth = __toESM(require_auth());
 var import_validation = __toESM(require_validation());
 var import_jsx_dev_runtime = __toESM(require_jsx_dev_runtime());
-function LoginRoute() {
-  return /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Auth_default, { mode: "login" }, void 0, false, {
-    fileName: "app/routes/login.jsx",
+function SignupRoute() {
+  return /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Auth_default, { mode: "signup" }, void 0, false, {
+    fileName: "app/routes/signup.jsx",
     lineNumber: 8,
     columnNumber: 10
   }, this);
 }
-var login_default = LoginRoute;
+var signup_default = SignupRoute;
 export {
-  login_default as default
+  signup_default as default
 };
-//# sourceMappingURL=/build/routes/login-KAWOJ7FI.js.map
+//# sourceMappingURL=/build/routes/signup-RGPB5AKC.js.map
